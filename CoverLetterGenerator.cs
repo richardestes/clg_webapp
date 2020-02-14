@@ -17,6 +17,7 @@ namespace myWebApp
         private string _positionTitleInput;
         private DateTime _currentDateTime;
         private string _currentDate;
+        private string _templatePath;
         private string _newDocPath;
         private string _formattedCompanyName;
         private string _formattedPositionTitle;
@@ -61,6 +62,11 @@ namespace myWebApp
         {
             get => _currentDate;
             set => _currentDate = value;
+        }
+        public string TemplatePath
+        {
+            get => _templatePath;
+            set => _templatePath = value;
         }
         public string NewDocPath
         {
@@ -127,10 +133,12 @@ namespace myWebApp
             get => _regexCompanyZipCode;
             set => _regexCompanyZipCode = value;
         }
+
         // constructor
         public CoverLetterGenerator()
         {
             CompanyAddressObj = new AddressObject();
+            TemplatePath = "coverLetterTemplates/template.docx";
         }
 
 
@@ -199,28 +207,30 @@ namespace myWebApp
         }
         public void GetNewDocPath()
         {
-            NewDocPath = "../output/" + FormattedCompanyName + "-" + FormattedPositionTitle + "-CoverLetter.docx";
+            NewDocPath = "output/" + FormattedCompanyName + "-" + FormattedPositionTitle + "-CoverLetter.docx";
         }
 
-        public void SetupRegex()
-        {
-            Regex regexCompanyName = new Regex("COMPANYNAME");
-            Regex regexCurrentDate = new Regex("CURRENTDATE");
-            Regex regexPositionTitle = new Regex("COMPANYPOSITION");
-            //regex is stupid so i have to do this
-            Regex regexCompanyStreet = new Regex("COMPANYLOCATION");
-            Regex regexCompanyCityState = new Regex("COMPANYCITYSTATE");
-            Regex regexCompanyZipCode = new Regex("COMPANYZIPCODE");
-        }
         public void RegexReplace()
         {
+            RegexCurrentDate = new Regex("CURRENTDATE");
+            RegexCompanyName = new Regex("COMPANYNAME");
+            //regex is stupid so i have to do this
+            RegexCompanyStreet = new Regex("COMPANYLOCATION");
+            RegexCompanyCityState = new Regex("COMPANYCITYSTATE");
+            RegexCompanyZipCode = new Regex("COMPANYZIPCODE");
+            RegexPositionTitle = new Regex("COMPANYPOSITION");
+
             // regex replace
-            DocumentText = RegexCompanyName.Replace(DocumentText, CompanyName);
             DocumentText = RegexCurrentDate.Replace(DocumentText, CurrentDate);
-            DocumentText = RegexPositionTitle.Replace(DocumentText, PositionTitle);
+            DocumentText = RegexCompanyName.Replace(DocumentText, CompanyName);
             DocumentText = RegexCompanyStreet.Replace(DocumentText, CompanyAddressObj.StreetAddress);
-            DocumentText = RegexCompanyCityState.Replace(DocumentText, CompanyAddressObj.StreetAddress);
+            DocumentText = RegexCompanyCityState.Replace(DocumentText, CompanyAddressObj.CityState);
             DocumentText = RegexCompanyZipCode.Replace(DocumentText, CompanyAddressObj.ZipCode);
+            DocumentText = RegexPositionTitle.Replace(DocumentText, PositionTitle);
+            DocumentText = RegexCompanyName.Replace(DocumentText, CompanyName);
+            DocumentText = RegexCompanyCityState.Replace(DocumentText, CompanyAddressObj.CityState);
+            DocumentText = RegexCompanyName.Replace(DocumentText, CompanyName);
+
         }
         public string GetClosestCity()
         {
@@ -233,6 +243,8 @@ namespace myWebApp
 
         public void GetCompanyAddress()
         {
+
+            Console.WriteLine("Using Google Maps Services...");
             GoogleSigned.AssignAllServices(new GoogleSigned("AIzaSyCtOR1S6lPWMyK1jE9IiTGMX10-s8z3e9Q"));
             var request = new GeocodingRequest();
             request.Address = GetClosestCity();
@@ -269,13 +281,7 @@ namespace myWebApp
                 CompanyAddressObj.CityState = companyCity + ", " + companyState;
                 CompanyAddressObj.ZipCode = companyZipCode.ToString();
 
-                Console.WriteLine("Full Address: " + result.FormattedAddress); // "1600 Pennsylvania Ave NW, Washington, DC 20500, USA"
-                Console.WriteLine("Street Address: " + CompanyAddressObj.StreetAddress);
-                Console.WriteLine("City: " + CompanyAddressObj.City);
-                Console.WriteLine("State: " + CompanyAddressObj.State);
-                Console.WriteLine("Zip Code: " + CompanyAddressObj.ZipCode);
-
-                Console.WriteLine();
+                LogLocation();
             }
             else
             {
@@ -284,15 +290,22 @@ namespace myWebApp
         }
         public void LogLocation()
         {
-            return;
+            Console.WriteLine("Street Address: " + CompanyAddressObj.StreetAddress);
+            Console.WriteLine("City: " + CompanyAddressObj.City);
+            Console.WriteLine("State: " + CompanyAddressObj.State);
+            Console.WriteLine("Zip Code: " + CompanyAddressObj.ZipCode);
+            Console.WriteLine();
         }
-        public void SearchAndReplace(string document, string outputDocument, string companyName, string positionTitle, string date, AddressObject obj)
+        public void SearchAndReplace()
         {
+
+            Console.WriteLine("Creating " + CompanyName + " cover letter...");
+
             // create copy of template document so we don't lose it
-            File.Copy(document, outputDocument);
+            File.Copy(TemplatePath, NewDocPath);
 
             // open the file and read contents to var
-            using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(outputDocument, true))
+            using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(NewDocPath, true))
             {
                 DocumentText = null;
 
@@ -300,13 +313,15 @@ namespace myWebApp
                 {
                     DocumentText = sr.ReadToEnd();
                 }
-
+                RegexReplace();
                 // write to new file
                 using (StreamWriter sw = new StreamWriter(wordDoc.MainDocumentPart.GetStream(FileMode.Create)))
                 {
                     sw.Write(DocumentText);
                 }
 
+                Console.WriteLine("Done!");
+                Console.WriteLine();
             }
         }
 
