@@ -243,7 +243,7 @@ namespace myWebApp
 
         public void GetCompanyAddress()
         {
-            private apiKey = Environment.GetEnvironmentVariable('CLG_GOOGLE_MAPS_API_KEY');
+            string apiKey = Environment.GetEnvironmentVariable("CLG_GOOGLE_MAPS_API_KEY");
             Console.WriteLine("Using Google Maps Services...");
             GoogleSigned.AssignAllServices(new GoogleSigned(apiKey));
             var request = new GeocodingRequest();

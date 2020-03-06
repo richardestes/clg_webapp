@@ -76,4 +76,3 @@
 /Users/richardestes/Developer/clg_webapp/obj/Debug/netcoreapp3.1/myWebApp.csproj.CopyComplete
 /Users/richardestes/Developer/clg_webapp/obj/Debug/netcoreapp3.1/myWebApp.dll
 /Users/richardestes/Developer/clg_webapp/obj/Debug/netcoreapp3.1/myWebApp.pdb
-/Users/richardestes/Developer/clg_webapp/obj/Debug/netcoreapp3.1/myWebApp.csproj.CoreCompileInputs.cache
