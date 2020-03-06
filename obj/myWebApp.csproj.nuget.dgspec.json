@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "/Users/richardestes/myWebApp/myWebApp.csproj": {}
+    "/Users/richardestes/Developer/clg_webapp/myWebApp.csproj": {}
   },
   "projects": {
-    "/Users/richardestes/myWebApp/myWebApp.csproj": {
+    "/Users/richardestes/Developer/clg_webapp/myWebApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/richardestes/myWebApp/myWebApp.csproj",
+        "projectUniqueName": "/Users/richardestes/Developer/clg_webapp/myWebApp.csproj",
         "projectName": "myWebApp",
-        "projectPath": "/Users/richardestes/myWebApp/myWebApp.csproj",
+        "projectPath": "/Users/richardestes/Developer/clg_webapp/myWebApp.csproj",
         "packagesPath": "/Users/richardestes/.nuget/packages/",
-        "outputPath": "/Users/richardestes/myWebApp/obj/",
+        "outputPath": "/Users/richardestes/Developer/clg_webapp/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/Users/richardestes/.nuget/NuGet/NuGet.Config"
+          "/Users/richardestes/.config/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"

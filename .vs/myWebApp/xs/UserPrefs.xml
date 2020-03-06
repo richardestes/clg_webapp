@@ -1,9 +1,20 @@
 ﻿<Properties StartupConfiguration="{40C4795B-9604-4004-94BC-90A3C1CD43CB}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="Program.cs">
     <Files>
-      <File FileName="Program.cs" Line="19" Column="34" />
+      <File FileName="Program.cs" Line="39" Column="22" />
       <File FileName="CoverLetterGenerator.cs" Line="315" Column="1" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="myWebApp" expanded="True">
+            <Node name="myWebApp" expanded="True">
+              <Node name="Program.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
